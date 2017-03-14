@@ -1,0 +1,313 @@
+package javazon;
+
+//Bryan Kim
+//02/08/2016
+//H. Mouissa, CIS 304
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+// Validate input from user
+public class Validator {
+	
+	// validate the first name input
+	public static String getValidFirstName(){
+		String aFirstName = JOptionPane.showInputDialog("Enter a first name.");
+		
+		while(isValidFirstName(aFirstName) == false){
+			aFirstName = JOptionPane.showInputDialog("Please enter a valid name. " + aFirstName + " is invalid.");
+		}
+		
+		return aFirstName;
+	}
+	
+	// user input must not be empty
+	private static boolean isValidFirstName(String anInput){
+		boolean result = false;
+		
+		if (anInput.length() == 0){
+			JOptionPane.showMessageDialog(null, "Please enter your first name.");
+		}else{
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	// validate the last name input
+	public static String getValidLastName(){
+		String aLastName = "";
+		
+		aLastName = JOptionPane.showInputDialog("Enter a last name.");
+		
+		while(isValidLastName(aLastName) == false){
+			aLastName = JOptionPane.showInputDialog("Please enter a valid last name. " + aLastName + " is invalid.");
+		}
+		
+		return aLastName;
+	}
+	
+	// user input must not be empty
+	private static boolean isValidLastName(String anInput){
+		boolean result = false;
+		
+		if (anInput.length() == 0){
+			JOptionPane.showMessageDialog(null, "Please enter your last name.");
+		}else{
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	// validate address and street input
+	public static String getValidStreetName(){
+		String aStreet = "";
+		
+		aStreet = JOptionPane.showInputDialog("Enter an address number and street name.");
+		
+		while (isValidStreetName(aStreet) == false){
+			aStreet = JOptionPane.showInputDialog("Please enter an address and street. " + aStreet + " is invalid.");
+		}
+		
+		return aStreet;
+	}
+	
+	// user input must not be empty
+	private static boolean isValidStreetName(String anInput){
+		boolean result = false;
+		
+		if (anInput.length() == 0){
+			JOptionPane.showMessageDialog(null, "Please enter your address and street.");
+		}else{
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	// validate city input
+	public static String getValidCityName(){
+		String aCity = "";
+		
+		aCity = JOptionPane.showInputDialog("Enter a city name.");
+		
+		while (isValidCityName(aCity) == false){
+			aCity = JOptionPane.showInputDialog("Please enter a valid city. " + aCity + " is invalid.");
+		}
+		
+		return aCity;
+	}
+	
+	// user input must not be empty
+	private static boolean isValidCityName(String anInput){
+		boolean result = false;
+		
+		if (anInput.length() == 0){
+			JOptionPane.showMessageDialog(null, "Please enter your city.");
+		}else{
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	// validate state input
+	public static String getValidStateName(){
+		String aState = "";
+		
+		aState = JOptionPane.showInputDialog("Enter an abbreviated state name.");
+		
+		while (isValidStateName(aState) == false){
+			aState = JOptionPane.showInputDialog("Please enter a valid abbreviated state. " + aState + " is invalid.");
+		}
+		
+		return aState.toUpperCase();
+	}
+	
+	// user input must be an existing, abbreviated state from the United States
+	private static boolean isValidStateName(String anInput){
+		boolean result = false;
+
+		// List Array of existing states
+		List states = Arrays.asList("AL","AZ","AK","AZ","CA",
+				"CO","CT","DC","DE","FL","GA","HI",
+				"ID","IL","IN","IA","KS","KY","LA",
+				"ME","MD","MA","MI","MN","MS","MO",
+				"MT","NE","NV","NH","NJ","NM","NY",
+				"NC","ND","OH","OK","OR","PA","RI",
+				"SC","SD","TN","TX","UT","VT","VA",
+				"WA","WV","WI","WY");
+		
+		// checks if input is an abbreviation of 2 characters
+		if (anInput.length() == 2){
+			char aLetter = anInput.charAt(0);
+			if (Character.isLetter(aLetter)){
+				aLetter = anInput.charAt(1);
+				if (Character.isLetter(aLetter)){
+					result = true;
+				}
+			}
+		}
+			
+		// checks if input is a real state and makes all inputs capitalized
+		if (states.contains(anInput.toUpperCase())){
+			result = true;
+		}else{
+			result = false;
+			JOptionPane.showMessageDialog(null, "The state abbreviation does not exist.");
+		}
+		
+		return result;
+	}
+	
+	// validate zip code input
+	public static String getValidZip(){
+		String aZip = "";
+		
+		aZip = JOptionPane.showInputDialog("Enter a zip code.");
+		
+		while(isValidZip(aZip) == false){
+			aZip = JOptionPane.showInputDialog("Please enter a valid zip code. " + aZip + " is invalid.");
+		}
+		
+		return aZip;
+	}
+	
+	// user input must consist of 5 digits
+	private static boolean isValidZip(String anInput){
+		boolean result = false;
+		
+		// checks if input is 5 digits
+		if (anInput.length() == 5){
+			try{
+				Integer.parseInt(anInput); // all inputs must be numbers
+				result = true;
+			}catch (Exception ex){
+				JOptionPane.showMessageDialog(null, "The zip code must be a number.");
+			}
+		}else if(anInput.length() != 5){
+			JOptionPane.showMessageDialog(null, "The zip code must be 5 digits.");
+		}
+		
+		return result;
+	}
+	
+	// validate phone number input
+	public static String getValidPhoneNumber(){
+		String aNum = "";
+		
+		aNum = JOptionPane.showInputDialog("Enter a phone number.");
+		
+		while(isValidPhoneNumber(aNum) == false){
+			aNum = JOptionPane.showInputDialog("Please enter a valid phone number. " + aNum + " is invalid.");
+		}
+		
+		return aNum;
+	}
+	
+	// user input must consist of 10 digits
+	private static boolean isValidPhoneNumber(String anInput){
+		boolean result = true;
+		
+		if (anInput == null || anInput.length() != 10){
+			result = false;
+			JOptionPane.showMessageDialog(null, "The phone number must be 10 digits.");
+		}else{
+			// check that string is all digits
+			for (int i=0; i<anInput.length(); i++){
+				
+				// retrieve digit located at index i in the string
+				char aDigit = anInput.charAt(i);
+				
+				// if char is not a digit, set result as false
+				if (Character.isDigit(aDigit) == false){
+					result = false;
+					JOptionPane.showMessageDialog(null, "The phone number must consist of digits.");
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	// validate membership ID input
+	public static String getValidMembershipID(){
+		String anID = "";
+		
+		anID = JOptionPane.showInputDialog("Enter a membership ID.");
+		
+		// input cannot be empty
+		while (anID.length() == 0){
+			anID = JOptionPane.showInputDialog("Please enter a membership ID.");
+		}
+		
+		while (isValidMembershipID(anID) == false){
+			anID = JOptionPane.showInputDialog("Please enter a valid ID. " + anID + " is invalid.");
+		}
+		
+		return anID.toUpperCase();
+	}
+	
+	// user input must be 2 characters and 4 digits
+	private static boolean isValidMembershipID(String anInput){
+		boolean result = false;
+		
+		// checks if first 2 input values are characters
+		char[] aLetter = anInput.toCharArray();
+		for (int i=0; i<2; i++){
+			if (Character.isLetter(aLetter[i])){
+				result = true;
+			}else if (!Character.isLetter(aLetter[i])){
+				result = false;
+				JOptionPane.showMessageDialog(null, "The first two values must be letters.");
+				break;
+			}
+		}
+		
+		// checks if last 4 input values are numbers
+		String aNumber = anInput.substring(2, anInput.length());
+		try{
+			Integer.parseInt(aNumber);
+		}catch (Exception ex){
+			JOptionPane.showMessageDialog(null, "The last four values must be numbers.");
+			result = false;
+		}
+		
+		return result;
+	}
+	
+	// validate quantity input
+	public static String getQuantity(){
+		String input = "";
+		
+		input = JOptionPane.showInputDialog("Please enter a quantity between 1 and 10.");
+		
+		while(isValidQuantity(input) == false){
+			input = JOptionPane.showInputDialog("Please re-enter quantity. " + input + " is invalid.");
+		}
+		
+		return input;
+	}
+	
+	// user input must be between 1 - 10
+	public static boolean isValidQuantity(String aString){
+		boolean result = false;
+		
+		try{
+			int aQuantity = Integer.parseInt(aString); // parses the string to check if values are int
+			if (aQuantity > 0 && aQuantity < 11){ // checks if quantity is between 1-10
+				result = true;
+			}else{
+				JOptionPane.showMessageDialog(null, "Please enter a quantity between 1 and 10.");
+			}
+		}catch (Exception Ex){
+			JOptionPane.showMessageDialog(null, "Please enter whole numbers only.");
+			result = false;
+		}
+		
+		return result;
+	}
+} // end validation

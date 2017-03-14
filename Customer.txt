@@ -1,0 +1,37 @@
+package javazon;
+
+//Bryan Kim
+//02/08/2016
+//H. Mouissa, CIS 304
+
+public class Customer extends Person {
+	// class variables
+	private String address;
+	private String city;
+	private String firstName;
+	private String lastName;
+	private String phone;
+	private String state;
+	private String zip;
+	private String memberShipID;
+
+	// customer inherits person, and it must also include a memberShipID
+	public Customer(String firstName, String lastName, String anAddress,
+			String city, String state, String zip, String phone, String aMemberShipID) {
+		
+		// send inherited parameters to parent class
+		super(firstName, lastName, anAddress, city, state, zip, phone);
+		
+		memberShipID = aMemberShipID;
+	}
+	
+	// return summary about customer to the receipt
+	public String toString(){
+		String result="";
+		
+		result += "Member ID: " + memberShipID + "\n";
+		result += super.toString();
+		
+		return result;
+	}
+}// end Customer class

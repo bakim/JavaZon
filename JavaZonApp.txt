@@ -1,0 +1,82 @@
+package javazon;
+
+// Bryan Kim
+// 02/08/2016
+// H. Mouissa, CIS 304
+
+import javax.swing.JOptionPane;
+
+public class JavaZonApp {
+	// JavaZon application
+	public static void main(String[] args) {
+
+		// validate user input in Validator class
+		String firstName = Validator.getValidFirstName();
+		String lastName = Validator.getValidLastName();
+		String street = Validator.getValidStreetName();
+		String city = Validator.getValidCityName();
+		String state = Validator.getValidStateName();
+		String zip = Validator.getValidZip();
+		String phone = Validator.getValidPhoneNumber();
+		String membership = Validator.getValidMembershipID();
+
+		// create a new customer for the order based on user input
+		Customer customer = new Customer(firstName,lastName,street,city,state,zip,phone,membership);
+
+		// create a new order
+		Order order = new Order();
+
+		// set the customer to the order
+		order.setOrderCustomer(customer);
+
+		// loop to collect products selected by user and their quantities
+		do {
+			// create menu
+			Menu menu = new Menu();
+
+			// get the items from the menu class, and load them onto the
+			// JOptionPane menu
+			String menuItems[] = menu.getMenuDescriptions();
+
+			int intCode = 0;
+			intCode = JOptionPane.showOptionDialog(null,
+					"Select an Option",
+					"Menu Items", 
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					menuItems,
+					menuItems[0]);
+
+			// return product from menu
+			Product product = menu.getMenu()[intCode];
+
+			// prompt user to enter quantity
+			String qty = Validator.getQuantity();
+
+			// add product and quantity to order
+			order.setOrderProduct(product, Integer.parseInt(qty));
+
+		}while (JOptionPane.showConfirmDialog(null,
+				"Enter More Products?",
+				"User Selection",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null) != JOptionPane.NO_OPTION);
+
+		// create a new JavaZon store
+		JavaZon jz = new JavaZon();
+
+		// add order to the store
+		jz.setOrder(order);
+
+		// assign a clerk to the store
+		jz.setClerk();
+
+		// process the order
+		jz.processOrder();
+
+		// display the order receipt
+		JOptionPane.showMessageDialog(null,jz.getReceipt());
+	}
+}// end JavaZonApp class

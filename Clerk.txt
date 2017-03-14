@@ -1,0 +1,49 @@
+package javazon;
+
+//Bryan Kim
+//02/08/2016
+//H. Mouissa, CIS 304
+
+public class Clerk extends Person {
+	// class variables
+	private String address;
+	private String city;
+	private String firstName;
+	private String lastName;
+	private String phone;
+	private String state;
+	private String zip;
+	private String employeeID;
+	private int registerNbr;
+	
+	// clerk inherits person, and it must also include an employeeID and registerNbr
+	public Clerk(String anID,int aRegister,
+			String firstName,String lastName, String anAddress,
+			String city, String state, String zip, String phone) {
+		
+		super(firstName, lastName, anAddress, city, state, zip, phone);
+		
+		employeeID = anID;
+		registerNbr = aRegister;
+	}
+	
+	// return summary about clerk to the receipt
+	public String toString(){
+		String result="";
+		
+		result += super.getFirstName() + " " + super.getLastName();
+		result += "EmployeeID:\t" + employeeID + "\n";
+		
+		return result;
+	}
+
+	// getter for the employeeID
+	public String getEmployeeID() {
+		return employeeID;
+	}
+
+	// getter for the cash register number
+	public int getRegisterNbr() {
+		return registerNbr;
+	}
+}// end Clerk class

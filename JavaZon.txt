@@ -1,0 +1,69 @@
+package javazon;
+
+//Bryan Kim
+//02/08/2016
+//H. Mouissa, CIS 304
+
+import java.util.Random;
+
+public class JavaZon {
+	// class variables
+	private Clerk[] arrClerks;
+	private Order jvzOrder;
+	
+	public JavaZon(){
+		loadClerkList();
+	}
+	
+	// setter to assign order
+	public void setOrder(Order anOrder){
+		jvzOrder = anOrder;
+	}
+	
+	// process the order
+	public void processOrder(){
+		jvzOrder.calcSubtotal();
+		jvzOrder.calcTax();
+		jvzOrder.calcTotal();
+	}
+	
+	// load clerks
+	public void loadClerkList(){
+		arrClerks = new Clerk[3];
+		Clerk musicClerk = new Clerk("EMP100",1, "Homer", "Simpson","243 North Main", "Spingfield", "CA", "98765", "909-987-6666");
+		Clerk bookClerk = new Clerk("EMP200", 2,"Bart", "Simpson","454 North Euclid", "Spingfield", "CA", "98765", "909-987-4444");
+		Clerk gameClerk = new Clerk("EMP300",3, "Lisa", "Simpson","767 North Holt", "Spingfield", "CA", "98765", "909-987-3333");
+		
+		arrClerks[0] = musicClerk;
+		arrClerks[1] = bookClerk;
+		arrClerks[2] = gameClerk;
+	}
+	
+	// set a random clerk to the order
+	public void setClerk(){
+		Random randGen = new Random();
+		
+		// generate a random clerk
+		int aRandomRegister = randGen.nextInt(3);
+		Clerk aRandomClerk = arrClerks[aRandomRegister];
+		
+		// assign the random clerk to the store
+		jvzOrder.setOrderClerk(aRandomClerk);
+		
+	}
+	
+	// return the receipt
+	public String getReceipt(){
+		String result;
+		
+		result = "JAVAZON WHOLESALE STORE\n\n";
+
+		result += "90404 CENTRAL AVE\n";
+		result += "MONTCLAIR, CA, 91763\n";
+		result += "  (909)345-9876\n\n";
+		
+		result += jvzOrder.toString();
+		
+		return result;
+	}
+}// end JavaZon class

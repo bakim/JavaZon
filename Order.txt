@@ -1,0 +1,184 @@
+package javazon;
+
+//Bryan Kim
+//02/08/2016
+//H. Mouissa, CIS 304
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Order {
+	// class variables
+	private Customer orderCustomer;
+	private Clerk orderClerk;
+	private Product[] orderProduct;
+	private int[] orderQuantity;
+	
+	// store totals
+	private double subtotal;
+	private double tax;
+	private double total;
+	
+	// currency format
+	NumberFormat currency = NumberFormat.getCurrencyInstance();
+	String subtotalString = "";
+	String taxString = "";
+	String totalString = "";
+	String orderProductPriceString = "";
+	
+	// constant defining tax
+	private static double TAX_RATE = 0.0825;
+
+	// keep track of how many products were added
+	private int productCount;
+	
+	// constructor
+	public Order(){
+		orderProduct = new Product[1];
+		orderQuantity = new int[1];
+	}
+	
+	// setter to assign customer
+	public void setOrderCustomer(Customer aCustomer){
+		orderCustomer = aCustomer;
+	}
+	
+	// setter to assign clerk
+	public void setOrderClerk(Clerk aClerk){
+		orderClerk = aClerk;
+	}
+	
+	// place products and quantities into orderProduct and orderQuantity arrays
+	public void setOrderProduct(Product aProduct, int aQty){
+		
+		// put products into orderProduct array
+		if (orderProduct[0] == null){
+			orderProduct[0] = aProduct;
+		}else if (orderProduct[0] != null){
+			
+			// intialize temporary array
+			Product[] copyArray = Arrays.copyOf(orderProduct, orderProduct.length);
+			
+			// copy orderProduct into temporary array
+			for (int i=0; i<orderProduct.length; i++){
+				copyArray[i] = orderProduct[i];
+			}
+			
+			// empty orderProduct
+			for (int i=0; i<orderProduct.length; i++){
+				orderProduct[i] = null;
+			}
+			
+			// increase orderProduct length
+			orderProduct = Arrays.copyOf(copyArray, copyArray.length + 1);
+			
+			// put products back into original array
+			for (int i=0; i<copyArray.length; i++){
+				orderProduct[i] = copyArray[i];
+			}
+			
+			orderProduct[orderProduct.length - 1] = aProduct;
+		}
+		
+		// put quantities into orderQuantity array
+		if (orderQuantity[0] == 0){
+			orderQuantity[0] = aQty;
+		}else if (orderQuantity[0] != 0){
+
+			// intialize temporary array
+			int[] copyArray = Arrays.copyOf(orderQuantity, orderQuantity.length);
+			
+			// copy orderQuantity into temporary array
+			for (int i=0; i<orderQuantity.length; i++){
+				copyArray[i] = orderQuantity[i];
+			}
+			
+			// empty orderQuantity
+			for (int i=0; i<orderQuantity.length; i++){
+				orderQuantity[i] = 0;
+			}
+			
+			// increase orderQuantity length
+			orderQuantity = Arrays.copyOf(copyArray, copyArray.length + 1);
+			
+			// put quantities back into original array
+			for (int i=0; i<copyArray.length; i++){
+				orderQuantity[i] = copyArray[i];
+			}
+			
+			orderQuantity[orderQuantity.length - 1] = aQty;
+		}
+	}
+	
+	// returns the number of items sold
+	public int getNumberItemsSold(){
+		int totalQty = 0;
+
+		for (int i = 0;i<orderQuantity.length;i++){
+			totalQty += orderQuantity[i];
+		}
+
+		return totalQty;
+	}
+	
+	// calculate subtotal
+	public void calcSubtotal(){
+		subtotal = 0;
+		
+		// calculate prices of products
+		for (int i=0; i<orderProduct.length; i++){
+			subtotal += orderProduct[i].getPrice()*orderQuantity[i];
+		}
+		
+		// display subtotal in currency format
+		subtotalString = currency.format(subtotal);
+	}
+	
+	// calculate tax expense
+	public void calcTax(){
+		tax = TAX_RATE * subtotal;
+		
+		// display tax in currency format
+		taxString = currency.format(tax);
+	}
+	
+	// calculate total after taxes
+	public void calcTotal(){
+		total = subtotal + tax;
+		
+		// display total in currency format
+		totalString = currency.format(total);
+	}
+
+	// place information onto order receipt
+	public String toString(){
+		NumberFormat nf =  NumberFormat.getCurrencyInstance();
+			
+		String result = "";
+		
+		// clerk information
+		result += "CASHIER @ REGISTER\n" + orderClerk.getFirstName() + " " + orderClerk.getLastName() +" @ " + orderClerk.getRegisterNbr() + "\n\n";
+		
+		// customer information
+		result += "CUSTOMER INFO\n" + orderCustomer.toString() + "\n";
+		
+		// product information
+		result += "NUMBER OF ITEMS SOLD = " + getNumberItemsSold() + "\n\n";
+		for (int i=0; i<orderProduct.length; i++){
+			//set currency format for product prices
+			orderProductPriceString = currency.format(orderProduct[i].getPrice() * orderQuantity[i]);
+			// product prices and descriptions
+			result += orderQuantity[i] + " @ " + orderProduct[i].getPrice() + " = " + (orderProductPriceString
+					+ "\n     " + orderProduct[i].getDescription() + "\n\n");
+		}
+		
+		// calculations
+		result += "TOTALS" + "\n" + 
+				"Subtotal: " + subtotalString + "\n" +
+				"Tax: " + taxString + "\n" +
+				"Total: " + totalString;
+		
+		return result;
+	}
+}// end Order class
